@@ -13,6 +13,7 @@ int can_fall( void ); // check if the block can fall
 int can_left( void );
 int can_right( void );
 int can_rotate( int cp, int cr );
+void del_lines( void ); // delete full lines
 
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
@@ -397,4 +398,28 @@ void block_rotate( int cp, int cr )
 			} // end for
 		} // end for
 	} // end else
+}
+
+void del_lines( void )
+{
+	int i, j, d, del; // counter of height, width, delete or not, which row to start delete
+	int rows = 0; // row number of del lines
+	for ( i = 19; i >= 0 ; i-- ) {
+		d = 1;
+		for ( j = 1; j < 11; j++ ) {
+			if ( BOARD[ i ][ j ] != 3 ) d = 0;
+		} // end for
+		if ( rows > 0 && d == 0 ) break;
+		else {
+			rows += d;
+			del = i;
+		} // end else
+	} // end for
+	del = del + rows - 1;
+	for ( i = del; i >= rows ; i-- ) {
+		for ( j = 1; j < 11; j++ ) {
+			BOARD[ i ][ j ] = BOARD[ i - rows ][ j ]; 
+		} // end for
+	} 
+	display();
 }
