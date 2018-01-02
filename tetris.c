@@ -217,10 +217,10 @@ int main( void )
 	clock_t t1 = clock(), t2 = clock(); // declare timer
 	srand( time(NULL) );
 	np = rand() % 7, nr = rand() % 4; // initialize next piece	
-	int start = 0, block_falling = 0;
+	int start = 0, block_falling = 0, landing = 0;
 	while ( 1 ) { // looping eternally
 		t2 = clock(); // count passing time
-		while ( ( int )( t2 - t1 ) >= speed || start++ == 0 ) { // initially start and activate after every second passing
+		while ( ( int )( t2 - t1 ) >= speed || start++ == 0 || block_falling == 0  ) { // initially start and activate after every second passing
 			if ( block_falling == 0 ) { // if block piling, update board and new block
 				cp = np; // replace current piece with next piece
 				cr = nr;
@@ -281,10 +281,12 @@ int main( void )
 					break;
 				case ' ':
 					while ( can_fall() == 1 ) block_land();
+					landing = 1;
 					display();
 					t2 = clock();
 					break;
 			} // end switch
+
 		} // end while
 		t2 = clock(); // count passing time
 	} // end while
@@ -301,9 +303,9 @@ void display( void )
 			if ( j == 0 ) printf( "│" ); // print left border
 			else if ( j == 11 ) {
 				printf( "│" ); // print right border
-				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.01 by 郭家銍"			);
-				if ( i == 3  ) printf( "　　Update.增加消行統計與難易度"		);
-				if ( i == 4  ) printf( "　　Bug.連按Space會導致程式暫停"		);
+				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.02 by 郭家銍"			);
+				if ( i == 3  ) printf( "　　Update.修正ver2.01中的Bug"		);
+				if ( i == 4  ) printf( "　　Bug.can_rotate函數不能判定T轉"		);
 				if ( i == 7  ) printf( "　　〈操作說明〉※須切換至英文輸入"			);
 				if ( i == 9  ) printf( "　　S: 下移　　　　    W: 旋轉" );
 				if ( i == 11 ) printf( "　　A: 左移　　　　　　D: 右移");
