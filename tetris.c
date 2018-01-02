@@ -340,3 +340,33 @@ void block_right( void )
 	} 
 	display();
 }
+
+int can_rotate( int cp, int cr )
+{
+	int i, j, core_i, core_j;
+	if ( cp == 0 ) return 0; // if current piece is O, return false
+	for ( i = 19; i >= 0 ; i-- ) { // search the piece core
+		for ( j = 1; j < 11; j++ ) {
+			if ( BOARD[ i ][ j ] == 2 ) {
+				core_i = i;
+				core_j = j;
+				break;
+			} // end if
+		} // end for
+	} // end for
+	if ( cp == 1 ) { // if current piece is I, should detect 4x4
+		for ( i = core_i - 1; i <= core_i + 2; i++ ) {
+			for ( j = core_j - 2; j <= core_j + 1; j++ ) {
+				if ( BOARD[ i ][ j ] > 2 ) return 0;
+			} // end for
+		} // end for
+		return 1;
+	} else { // other piece, should detect 3x3
+		for ( i = core_i - 1; i <= core_i + 1; i++ ) {
+			for ( j = core_j - 1; j <= core_j + 1; j++ ) {
+				if ( BOARD[ i ][ j ] > 2 ) return 0;
+			} // end for
+		} // end for
+		return 1;
+	} // end else
+}
