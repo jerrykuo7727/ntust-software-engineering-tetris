@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void display( void ); // refresh the board
+
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
 {
@@ -187,3 +189,36 @@ char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
 		}
 	} // end T
 }; // end PIECES
+
+void display( void )
+{
+	int i, j; // counter
+	system( "CLS" ); // refresh the screen
+	printf( "\n" );
+	for ( i = 0; i < 20; i++ ) {
+		printf( "　　　" );
+		for ( j = 0; j < 12; j++ ) {
+			if ( j == 0 ) printf( "│" ); // print left border
+			else if ( j == 11 ) {
+				printf( "│" ); // print right border
+				if ( i == 1 ) printf( "　　俄羅斯方塊 ver1.00 by 郭家銍"  );
+				else if ( i == 4 ) printf( "　　Bug1. 未解決定時落下與等候輸入之衝突" );
+				else if ( i == 5 ) printf( "　　      必須透過按鍵輸入使程式繼續執行" );
+				else if ( i == 7 ) printf( "　　Bug2. 未解決輸入字串的尾端多餘之\"\\n\"" );
+				else if ( i == 8 ) printf( "　　      任何按鍵輸入都會使方塊落下一格" );
+				else if ( i == 10 ) printf( "　　Bug3. 未解決函數 getche() 之輸入回顯" );
+				else if ( i == 11 ) printf( "　　      導致按鍵輸入會出現在畫面中一瞬" );
+				else if ( i == 13 ) printf( "　　〈操作說明〉※須切換至英文輸入" );
+				else if ( i == 15 ) printf( "　　Enter: 下落一格　　S: 下落兩格" );
+				else if ( i == 17 ) printf( "　　A: 左移　　　　　　D: 右移" );
+				else if ( i == 19 ) printf( "　　W: 旋轉" );
+				printf( "\n" );
+			} else {
+				if ( BOARD[ i ][ j ] == 0 ) printf( "　" );
+				else if ( BOARD[ i ][ j ] == 1 || BOARD[ i ][ j ] == 2 ) printf( "＊" );
+				else if ( BOARD[ i ][ j ] == 3 ) printf( "＃" );
+			} // end else
+		} // end for
+	} // end for
+	printf( "　　　└──────────┘" ); // print bottom border
+}
