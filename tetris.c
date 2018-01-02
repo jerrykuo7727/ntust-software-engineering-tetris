@@ -1,3 +1,4 @@
+// written by 郭家銍 四電資一 B10432030 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -15,7 +16,7 @@ void block_land( void );
 int can_fall( void ); // check if the block can fall
 int can_left( void );
 int can_right( void );
-int can_rotate( int cp, int cr );
+int can_rotate( int cp, int cr, int clockwise );
 void del_lines( void ); // delete full lines
 int isgameover( int piece, int rotation ); // check if game is over
 
@@ -275,9 +276,17 @@ int main( void )
 					if ( can_right() == 1 ) block_right();
 					t2 = clock();
 					break;
-				case 'w':
-					if ( can_rotate( cp, cr ) == 1 ) {
+				case 'w': // counter clockwise 
+					if ( can_rotate( cp, cr, 1 ) == 1 ) {
 						cr = ( cr + 1 ) % 4; // rotate the piece
+						block_rotate( cp, cr ); // overwrite with the rotated piece
+					} // end if
+					t2 = clock();
+					break;
+				case 'e': // clockwise
+					if ( can_rotate( cp, cr, -1 ) == 1 ) {
+						if ( cr == 0 ) cr = 4;
+						else cr -= 1; // rotate the piece
 						block_rotate( cp, cr ); // overwrite with the rotated piece
 					} // end if
 					t2 = clock();
@@ -434,8 +443,10 @@ void block_right( void )
 	display();
 }
 
-int can_rotate( int cp, int cr )
+int can_rotate( int cp, int cr, int clockwise )
 {
+	if ( cr == 4 && clockwise == 1) cr = -1;
+	if ( cr == 0 && clockwise == -1) cr = 5;
 	int i, j, core_i, core_j, ti, tj;
 	if ( cp == 0 ) return 0; // if current piece is O, return false
 	for ( i = 19; i >= 0 ; i-- ) { // search the piece core
@@ -457,7 +468,7 @@ int can_rotate( int cp, int cr )
 	} else if (cp == 6) { // else if current piece is T, should detect 3x3
 		for ( i = core_i - 1, ti = 0; i <= core_i + 1; i++, ti++ ) {
 			for ( j = core_j - 1, tj = 1; j <= core_j + 1; j++, tj++ ) {
-				if ( PIECES[ cp ][ cr + 1 ][ ti ][ tj ] > 0 && BOARD[ i ][ j ] > 2 ) return 0; // detect rule: T spin
+				if ( PIECES[ cp ][ cr + clockwise ][ ti ][ tj ] > 0 && BOARD[ i ][ j ] > 2 ) return 0; // detect rule: T spin
 			} // end for
 		} // end for
 		return 1;
