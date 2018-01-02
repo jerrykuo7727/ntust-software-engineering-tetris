@@ -7,6 +7,7 @@ void block_init( int piece, int rotation ); // generate a new block
 void block_fall( void ); // make the block fall
 void block_turn( void );
 void block_left( void );
+void block_right( void );
 int can_fall( void ); // check if the block can fall
 int can_left( void );
 int can_right( void );
@@ -323,4 +324,18 @@ int can_right( void )
 		}
 	}
 	return 1;
+}
+
+void block_right( void )
+{
+	int i, j;
+	for ( i = 19; i >= 0 ; i-- ) { 
+		for ( j = 10; j > 0; j-- ) {
+			if ( BOARD[ i ][ j ] == 1 || BOARD[ i ][ j ] == 2 ) {
+				BOARD[ i ][ j + 1 ] = BOARD[ i ][ j ];
+				BOARD[ i ][ j ] = 0;
+			}
+		}
+	} 
+	display();
 }
