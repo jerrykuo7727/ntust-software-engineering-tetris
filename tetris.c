@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <conio.h>
 
 void display( void ); // refresh the board
 void BOARD_init( void ); // generate a new board
@@ -204,6 +206,69 @@ char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
 		}
 	} // end T
 }; // end PIECES
+
+int main( void )
+{
+	char input;
+	BOARD_init();
+	int cp, cr, np, nr; // declare current piece/rotation and next
+	srand( time(NULL) );
+	np = rand() % 7, nr = rand() % 4; // initialize next piece	
+	int block_falling = 0;
+	while ( 1 ) {
+		if (block_falling == 0) { // every block colliding, update board and new block
+			cp = np; // replace current piece with next piece
+			cr = nr;
+			np = rand() % 7; // randomize next piece
+			nr = rand() % 4;
+			if ( isgameover( cp, cr ) == 1 ) {
+				system( "CLS" );
+					printf( "\n¡@¡@¡@¡@Game Over! Play again? (y/n) " );
+				input = getchar();
+				while ( input != 'y' && input != 'n' ) {
+					system( "CLS" );
+					printf( "\n¡@¡@¡@¡@Invalid command. Play again? (y/n) " );
+					input = getchar();
+				} // end while
+				if ( input == 'y' ) {
+						BOARD_init();
+						srand( time(NULL) );
+						np = rand() % 7, nr = rand() % 4;
+						continue;
+				} else break;
+			} // end if
+			block_init( cp, cr );
+			block_falling = 1;
+		} // end if
+		else {
+			input = getche();
+			switch ( input ) {
+				case 's':
+					if ( can_fall() == 1 ) block_fall();
+					break;
+				case 'a':
+					if ( can_left() == 1 ) block_left();
+					break;
+			    case 'd':
+					if ( can_right() == 1 ) block_right();
+					break;
+				case 'w':
+					if ( can_rotate( cp, cr ) == 1 ) {
+						cr = ( cr + 1 ) % 4; // rotate the piece
+						block_rotate( cp, cr ); // overwrite with the rotated piece
+					} break;
+			}
+			if ( can_fall() == 1 )
+				block_fall();
+			else{
+				block_falling = 0;
+				block_turn(); // turn falling block into piling block
+				del_lines();
+			}
+		} // end else
+		sleep( 4/5 ); // loop per second
+	} // end while
+}
 
 void display( void )
 {
