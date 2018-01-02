@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 void display( void ); // refresh the board
+void BOARD_init( void ); // generate a new board
 
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
@@ -221,4 +222,16 @@ void display( void )
 		} // end for
 	} // end for
 	printf( "¡@¡@¡@¢|¢w¢w¢w¢w¢w¢w¢w¢w¢w¢w¢}" ); // print bottom border
+}
+
+void BOARD_init( void )
+{
+	int i, j;
+	for ( i = 0; i < 21; i++ )
+		for ( j = 0; j < 12; j++ ) {
+			if ( i == 20 ) BOARD[ i ][ j ] = 4;
+			else if ( j == 0 || j == 11 ) BOARD[ i ][ j ] = 4;
+			else BOARD[ i ][ j ] = 0;
+		}
+	display();
 }
