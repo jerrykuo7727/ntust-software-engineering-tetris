@@ -11,6 +11,7 @@ void block_turn( void );
 void block_left( void );
 void block_right( void );
 void block_rotate( int cp, int cr );
+void block_land( void );
 int can_fall( void ); // check if the block can fall
 int can_left( void );
 int can_right( void );
@@ -210,66 +211,81 @@ char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
 int main( void )
 {
 	char input;
-	BOARD_init();
-	int t, cp, cr, np, nr; // declare counter, current piece/rotation and next
+	BOARD_init(); // initialize the board
+	int cp, cr, np, nr; // declare current piece/rotation and next
+	clock_t t1 = clock(), t2 = clock(); // declare timer
 	srand( time(NULL) );
 	np = rand() % 7, nr = rand() % 4; // initialize next piece	
-	int block_falling = 0;
-	while ( 1 ) {
-		if (block_falling == 0) { // every block colliding, update board and new block
-			cp = np; // replace current piece with next piece
-			cr = nr;
-			np = rand() % 7; // randomize next piece
-			nr = rand() % 4;
-			if ( isgameover( cp, cr ) == 1 ) {
-				system( "CLS" );
-					printf( "\n\n　　　　Game Over! Play again? (y/n) " );
-				input = getche();
-				while ( input != 'y' && input != 'n' ) {
+	int start = 0, block_falling = 0;
+	while ( 1 ) { // looping eternally
+		t2 = clock(); // count passing time
+		while ( ( int )( t2 - t1 ) >= 1000 || start++ == 0 ) { // initially start and activate after every second passing
+			if ( block_falling == 0 ) { // if block piling, update board and new block
+				cp = np; // replace current piece with next piece
+				cr = nr;
+				np = rand() % 7; // randomize next piece
+				nr = rand() % 4;
+				if ( isgameover( cp, cr ) == 1 ) {
 					system( "CLS" );
 					printf( "\n\n　　　　Game Over! Play again? (y/n) " );
 					input = getche();
-				} // end while
-				if ( input == 'y' ) {
-						BOARD_init();
-						srand( time(NULL) );
-						np = rand() % 7, nr = rand() % 4;
-						continue;
-				} else break;
-			} // end if
-			block_init( cp, cr );
-			block_falling = 1;
-		} // end if
-		else {
-			input = getche();
+					while ( input != 'y' && input != 'n' ) {
+						system( "CLS" );
+						printf( "\n\n　　　　Game Over! Play again? (y/n) " );
+						input = getche();
+					} // end while
+					if ( input == 'y' ) {
+							start = 0;
+							BOARD_init();
+							srand( time(NULL) );
+							np = rand() % 7, nr = rand() % 4;
+							continue;
+					} else return 0;
+				} // end if
+				block_init( cp, cr );
+				block_falling = 1;
+			} else { // block falling or colliding
+				if ( can_fall() == 1 )
+					block_fall();
+				else{
+					block_falling = 0;
+					block_turn(); // turn falling block into piling block
+					del_lines();
+				} // end else
+			} // end else
+			t1 = clock(); // reset the timer;
+			t2 = clock();
+		} // end while
+		while ( kbhit() == 1 ) { // activate when input detected
+			input = getch();
 			switch ( input ) {
 				case 's':
 					if ( can_fall() == 1 ) block_fall();
+					t2 = clock();
 					break;
-					case 'a':
+				case 'a':
 					if ( can_left() == 1 ) block_left();
 					break;
+					t2 = clock();
 				case 'd':
 					if ( can_right() == 1 ) block_right();
+					t2 = clock();
 					break;
 				case 'w':
 					if ( can_rotate( cp, cr ) == 1 ) {
 						cr = ( cr + 1 ) % 4; // rotate the piece
 						block_rotate( cp, cr ); // overwrite with the rotated piece
-					} break;
-				case ' ':
-					block_land();
+					} // end if
+					t2 = clock();
 					break;
-			} // end switch 
-			if ( can_fall() == 1 )
-				block_fall();
-			else{
-				block_falling = 0;
-				block_turn(); // turn falling block into piling block
-				del_lines();
-			}
-		} // end else
-		sleep( 4/5 ); // loop per second
+				case ' ':
+					while ( can_fall() == 1 ) block_land();
+					display();
+					t2 = clock();
+					break;
+			} // end switch
+		} // end while
+		t2 = clock(); // count passing time
 	} // end while
 }
 
@@ -284,17 +300,12 @@ void display( void )
 			if ( j == 0 ) printf( "│" ); // print left border
 			else if ( j == 11 ) {
 				printf( "│" ); // print right border
-				if ( i == 1 ) printf( "　　俄羅斯方塊 ver1.01 by 郭家銍"  );
-				else if ( i == 4 ) printf( "　　Bug1. 未解決定時落下與等候輸入之衝突" );
-				else if ( i == 5 ) printf( "　　      必須透過按鍵輸入使程式繼續執行" );
-				else if ( i == 7 ) printf( "　　Bug2. 未解決輸入字串的尾端多餘之\"\\n\"" );
-				else if ( i == 8 ) printf( "　　      任何按鍵輸入都會使方塊落下一格" );
-				else if ( i == 10 ) printf( "　　Bug3. 未解決函數 getche() 之輸入回顯" );
-				else if ( i == 11 ) printf( "　　      導致按鍵輸入會出現在畫面中一瞬" );
-				else if ( i == 13 ) printf( "　　〈操作說明〉※須切換至英文輸入" );
-				else if ( i == 15 ) printf( "　　Enter: 下落一格　　Space: 下落到底" );
-				else if ( i == 17 ) printf( "　　S: 下落兩格　　　　W: 旋轉" );
-				else if ( i == 19 ) printf( "　　A: 左移　　　　　　D: 右移" );
+				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.00 by 郭家銍"			);
+				if ( i == 3 ) printf( "　　 Update.修正ver1.01中的所有Bug"			);
+				if ( i == 7 ) printf( "　　〈操作說明〉※須切換至英文輸入"			);
+				if ( i == 9 ) printf( "　　S: 下移　　　　    W: 旋轉" );
+				if ( i == 11 ) printf( "　　A: 左移　　　　　　D: 右移");
+				if ( i == 13 ) printf( "　　Space: 落下" );
 				printf( "\n" );
 			} else {
 				if ( BOARD[ i ][ j ] == 0 ) printf( "　" );
@@ -470,33 +481,20 @@ void block_rotate( int cp, int cr )
 			} // end for
 		} // end for
 	} // end else
+	display();
 }
 
 void block_land( void )
 {
-	int i, j, upper, bottom, distance = 0;
-	int min_distance = 40;
-	for ( j = 1; j < 11; j++ ) {
-		upper = 0;
-		bottom = 20;
-		for ( i = 0; i < 20; i++ ) 
-			if ( BOARD[ i ][ j ] >= 1 && BOARD[ i ][ j ] <= 2 && upper < i ) upper = i;
-		for ( i = 20; i >= 0; i-- ) 
-			if ( BOARD[ i ][ j ] >= 3 && BOARD[ i ][ j ] <= 4 && bottom > i ) bottom = i;
-		distance = bottom - upper - 1;
-		if ( min_distance > distance ) min_distance = distance;
-	} // end for
-	if ( min_distance != 0 ) {
-		for ( i = 19; i >= 0 ; i-- ) { 
-			for ( j = 1; j < 11; j++ ) {
-				if ( BOARD[ i ][ j ] == 1 || BOARD[ i ][ j ] == 2 ) {
-					BOARD[ i + min_distance ][ j ] = BOARD[ i ][ j ]; 	// replace the bottom line with current line
-					BOARD[ i ][ j ] = 0; // clean the current line
-				}
+	int i, j;
+	for ( i = 19; i >= 0 ; i-- ) { 
+		for ( j = 1; j < 11; j++ ) {
+			if ( BOARD[ i ][ j ] == 1 || BOARD[ i ][ j ] == 2 ) {
+				BOARD[ i + 1 ][ j ] = BOARD[ i ][ j ]; 	// replace the next line with current line
+				BOARD[ i ][ j ] = 0; // clean the current line
 			}
 		}
-	}
-	display();
+	} 
 }
 
 void del_lines( void )
