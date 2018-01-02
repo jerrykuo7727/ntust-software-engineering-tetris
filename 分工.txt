@@ -10,8 +10,7 @@ B104320xx-View.cs
   - everyone have to write a sub-class of View, named after thier student ID
 
 controller.cs
+main.cs 
   - class Controller
   - B10432002 鄭庭謙
   
-main.cs
-  - 
