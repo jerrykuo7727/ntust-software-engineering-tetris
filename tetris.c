@@ -7,6 +7,7 @@ void display( void ); // refresh the board
 void BOARD_init( void ); // generate a new board
 void block_init( int piece, int rotation ); // generate a new block
 void block_fall( void ); // make the block fall
+void block_land( void );
 void block_turn( void );
 void block_left( void );
 void block_right( void );
@@ -347,6 +348,33 @@ void block_fall( void )
 			}
 		}
 	} 
+	display();
+}
+
+void block_land( void )
+{
+	int i, j, upper, bottom, distance = 0;
+	int min_distance = 40;
+	for ( j = 1; j < 11; j++ ) {
+		upper = 0;
+		bottom = 20;
+		for ( i = 0; i < 20; i++ ) 
+			if ( BOARD[ i ][ j ] >= 1 && BOARD[ i ][ j ] <= 2 && upper < i ) upper = i;
+		for ( i = 20; i >= 0; i-- ) 
+			if ( BOARD[ i ][ j ] >= 3 && BOARD[ i ][ j ] <= 4 && bottom > i ) bottom = i;
+		distance = bottom - upper - 1;
+		if ( min_distance > distance ) min_distance = distance;
+	} // end for
+	if ( min_distance != 0 ) {
+		for ( i = 19; i >= 0 ; i-- ) { 
+			for ( j = 1; j < 11; j++ ) {
+				if ( BOARD[ i ][ j ] == 1 || BOARD[ i ][ j ] == 2 ) {
+					BOARD[ i + min_distance ][ j ] = BOARD[ i ][ j ]; 	// replace the bottom line with current line
+					BOARD[ i ][ j ] = 0; // clean the current line
+				}
+			}
+		}
+	}
 	display();
 }
 
