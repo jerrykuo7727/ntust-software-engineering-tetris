@@ -7,7 +7,6 @@ void display( void ); // refresh the board
 void BOARD_init( void ); // generate a new board
 void block_init( int piece, int rotation ); // generate a new block
 void block_fall( void ); // make the block fall
-void block_land( void );
 void block_turn( void );
 void block_left( void );
 void block_right( void );
@@ -212,7 +211,7 @@ int main( void )
 {
 	char input;
 	BOARD_init();
-	int cp, cr, np, nr; // declare current piece/rotation and next
+	int t, cp, cr, np, nr; // declare counter, current piece/rotation and next
 	srand( time(NULL) );
 	np = rand() % 7, nr = rand() % 4; // initialize next piece	
 	int block_falling = 0;
@@ -224,12 +223,12 @@ int main( void )
 			nr = rand() % 4;
 			if ( isgameover( cp, cr ) == 1 ) {
 				system( "CLS" );
-					printf( "\n　　　　Game Over! Play again? (y/n) " );
-				input = getchar();
+					printf( "\n\n　　　　Game Over! Play again? (y/n) " );
+				input = getche();
 				while ( input != 'y' && input != 'n' ) {
 					system( "CLS" );
-					printf( "\n　　　　Invalid command. Play again? (y/n) " );
-					input = getchar();
+					printf( "\n\n　　　　Game Over! Play again? (y/n) " );
+					input = getche();
 				} // end while
 				if ( input == 'y' ) {
 						BOARD_init();
@@ -247,10 +246,10 @@ int main( void )
 				case 's':
 					if ( can_fall() == 1 ) block_fall();
 					break;
-				case 'a':
+					case 'a':
 					if ( can_left() == 1 ) block_left();
 					break;
-			    case 'd':
+				case 'd':
 					if ( can_right() == 1 ) block_right();
 					break;
 				case 'w':
@@ -258,7 +257,10 @@ int main( void )
 						cr = ( cr + 1 ) % 4; // rotate the piece
 						block_rotate( cp, cr ); // overwrite with the rotated piece
 					} break;
-			}
+				case ' ':
+					block_land();
+					break;
+			} // end switch 
 			if ( can_fall() == 1 )
 				block_fall();
 			else{
@@ -282,7 +284,7 @@ void display( void )
 			if ( j == 0 ) printf( "│" ); // print left border
 			else if ( j == 11 ) {
 				printf( "│" ); // print right border
-				if ( i == 1 ) printf( "　　俄羅斯方塊 ver1.00 by 郭家銍"  );
+				if ( i == 1 ) printf( "　　俄羅斯方塊 ver1.01 by 郭家銍"  );
 				else if ( i == 4 ) printf( "　　Bug1. 未解決定時落下與等候輸入之衝突" );
 				else if ( i == 5 ) printf( "　　      必須透過按鍵輸入使程式繼續執行" );
 				else if ( i == 7 ) printf( "　　Bug2. 未解決輸入字串的尾端多餘之\"\\n\"" );
@@ -290,9 +292,9 @@ void display( void )
 				else if ( i == 10 ) printf( "　　Bug3. 未解決函數 getche() 之輸入回顯" );
 				else if ( i == 11 ) printf( "　　      導致按鍵輸入會出現在畫面中一瞬" );
 				else if ( i == 13 ) printf( "　　〈操作說明〉※須切換至英文輸入" );
-				else if ( i == 15 ) printf( "　　Enter: 下落一格　　S: 下落兩格" );
-				else if ( i == 17 ) printf( "　　A: 左移　　　　　　D: 右移" );
-				else if ( i == 19 ) printf( "　　W: 旋轉" );
+				else if ( i == 15 ) printf( "　　Enter: 下落一格　　Space: 下落到底" );
+				else if ( i == 17 ) printf( "　　S: 下落兩格　　　　W: 旋轉" );
+				else if ( i == 19 ) printf( "　　A: 左移　　　　　　D: 右移" );
 				printf( "\n" );
 			} else {
 				if ( BOARD[ i ][ j ] == 0 ) printf( "　" );
@@ -315,6 +317,7 @@ void BOARD_init( void )
 		}
 	display();
 }
+
 
 void block_init( int piece, int rotation )
 {
@@ -348,33 +351,6 @@ void block_fall( void )
 			}
 		}
 	} 
-	display();
-}
-
-void block_land( void )
-{
-	int i, j, upper, bottom, distance = 0;
-	int min_distance = 40;
-	for ( j = 1; j < 11; j++ ) {
-		upper = 0;
-		bottom = 20;
-		for ( i = 0; i < 20; i++ ) 
-			if ( BOARD[ i ][ j ] >= 1 && BOARD[ i ][ j ] <= 2 && upper < i ) upper = i;
-		for ( i = 20; i >= 0; i-- ) 
-			if ( BOARD[ i ][ j ] >= 3 && BOARD[ i ][ j ] <= 4 && bottom > i ) bottom = i;
-		distance = bottom - upper - 1;
-		if ( min_distance > distance ) min_distance = distance;
-	} // end for
-	if ( min_distance != 0 ) {
-		for ( i = 19; i >= 0 ; i-- ) { 
-			for ( j = 1; j < 11; j++ ) {
-				if ( BOARD[ i ][ j ] == 1 || BOARD[ i ][ j ] == 2 ) {
-					BOARD[ i + min_distance ][ j ] = BOARD[ i ][ j ]; 	// replace the bottom line with current line
-					BOARD[ i ][ j ] = 0; // clean the current line
-				}
-			}
-		}
-	}
 	display();
 }
 
@@ -494,6 +470,33 @@ void block_rotate( int cp, int cr )
 			} // end for
 		} // end for
 	} // end else
+}
+
+void block_land( void )
+{
+	int i, j, upper, bottom, distance = 0;
+	int min_distance = 40;
+	for ( j = 1; j < 11; j++ ) {
+		upper = 0;
+		bottom = 20;
+		for ( i = 0; i < 20; i++ ) 
+			if ( BOARD[ i ][ j ] >= 1 && BOARD[ i ][ j ] <= 2 && upper < i ) upper = i;
+		for ( i = 20; i >= 0; i-- ) 
+			if ( BOARD[ i ][ j ] >= 3 && BOARD[ i ][ j ] <= 4 && bottom > i ) bottom = i;
+		distance = bottom - upper - 1;
+		if ( min_distance > distance ) min_distance = distance;
+	} // end for
+	if ( min_distance != 0 ) {
+		for ( i = 19; i >= 0 ; i-- ) { 
+			for ( j = 1; j < 11; j++ ) {
+				if ( BOARD[ i ][ j ] == 1 || BOARD[ i ][ j ] == 2 ) {
+					BOARD[ i + min_distance ][ j ] = BOARD[ i ][ j ]; 	// replace the bottom line with current line
+					BOARD[ i ][ j ] = 0; // clean the current line
+				}
+			}
+		}
+	}
+	display();
 }
 
 void del_lines( void )
