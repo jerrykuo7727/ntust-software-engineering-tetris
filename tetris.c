@@ -315,8 +315,8 @@ void display( void )
 			if ( j == 0 ) printf( "│" ); // print left border
 			else if ( j == 11 ) {
 				printf( "│" ); // print right border
-				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.03 by 郭家銍"			);
-				if ( i == 3  ) printf( "　　Update.修正ver2.02中的Bug"		);
+				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.04 by 郭家銍"			);
+				if ( i == 3  ) printf( "　　Update.修正ver2.03中的Bug"		);
 				if ( i == 7  ) printf( "　　〈操作說明〉※須切換至英文輸入"			);
 				if ( i == 9  ) printf( "　　S: 下移　　　　    W: 旋轉" );
 				if ( i == 11 ) printf( "　　A: 左移　　　　　　D: 右移");
@@ -331,7 +331,7 @@ void display( void )
 			} // end else
 		} // end for
 	} // end for
-	printf( "　　　└──────────┘" ); // print bottom border
+	printf( "　　　└－－－－－－－－－－┘" ); // print bottom border
 }
 
 void BOARD_init( void )
