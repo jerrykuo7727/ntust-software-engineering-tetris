@@ -240,6 +240,9 @@ int main( void )
 							BOARD_init();
 							srand( time(NULL) );
 							np = rand() % 7, nr = rand() % 4;
+							total_del = 0;
+							difficulty = 1;
+							speed = 1000;
 							continue;
 					} else return 0;
 				} // end if
@@ -303,9 +306,8 @@ void display( void )
 			if ( j == 0 ) printf( "│" ); // print left border
 			else if ( j == 11 ) {
 				printf( "│" ); // print right border
-				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.02 by 郭家銍"			);
-				if ( i == 3  ) printf( "　　Update.修正ver2.01中的Bug"		);
-				if ( i == 4  ) printf( "　　Bug.can_rotate函數不能判定T轉"		);
+				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.03 by 郭家銍"			);
+				if ( i == 3  ) printf( "　　Update.修正ver2.02中的Bug"		);
 				if ( i == 7  ) printf( "　　〈操作說明〉※須切換至英文輸入"			);
 				if ( i == 9  ) printf( "　　S: 下移　　　　    W: 旋轉" );
 				if ( i == 11 ) printf( "　　A: 左移　　　　　　D: 右移");
@@ -434,7 +436,7 @@ void block_right( void )
 
 int can_rotate( int cp, int cr )
 {
-	int i, j, core_i, core_j;
+	int i, j, core_i, core_j, ti, tj;
 	if ( cp == 0 ) return 0; // if current piece is O, return false
 	for ( i = 19; i >= 0 ; i-- ) { // search the piece core
 		for ( j = 1; j < 11; j++ ) {
@@ -445,14 +447,21 @@ int can_rotate( int cp, int cr )
 			} // end if
 		} // end for
 	} // end for
-	if ( cp == 1 ) { // if current piece is I, should detect 4x4
+	if ( cp == 1 ) { // if current piece is I, detect 4x4
 		for ( i = core_i - 1; i <= core_i + 2; i++ ) {
 			for ( j = core_j - 2; j <= core_j + 1; j++ ) {
 				if ( BOARD[ i ][ j ] > 2 ) return 0;
 			} // end for
 		} // end for
 		return 1;
-	} else { // other piece, should detect 3x3
+	} else if (cp == 6) { // else if current piece is T, should detect 3x3
+		for ( i = core_i - 1, ti = 0; i <= core_i + 1; i++, ti++ ) {
+			for ( j = core_j - 1, tj = 1; j <= core_j + 1; j++, tj++ ) {
+				if ( PIECES[ cp ][ cr + 1 ][ ti ][ tj ] > 0 && BOARD[ i ][ j ] > 2 ) return 0; // detect rule: T spin
+			} // end for
+		} // end for
+		return 1;
+	} else { // other pieces, detect 3x3
 		for ( i = core_i - 1; i <= core_i + 1; i++ ) {
 			for ( j = core_j - 1; j <= core_j + 1; j++ ) {
 				if ( BOARD[ i ][ j ] > 2 ) return 0;
@@ -464,7 +473,7 @@ int can_rotate( int cp, int cr )
 
 void block_rotate( int cp, int cr )
 {
-	int i, j, core_i, core_j;
+	int i, j, core_i, core_j, ti, tj;
 	for ( i = 19; i >= 0 ; i-- ) { // search the piece core
 		for ( j = 1; j < 11; j++ ) {
 			if ( BOARD[ i ][ j ] == 2 ) {
@@ -478,6 +487,13 @@ void block_rotate( int cp, int cr )
 		for ( i = core_i - 1; i <= core_i + 2; i++ ) {
 			for ( j = core_j - 2; j <= core_j + 1; j++ ) {
 				BOARD[ i ][ j ] = PIECES[ cp ][ cr ][ i - core_i + 1 ][ j - core_j + 2 ];
+			} // end for
+		} // end for
+	} else if ( cp == 6 ) { // if current piece is T, overwrite cross only
+		for ( i = core_i - 1, ti = 0; i <= core_i + 1; i++, ti++ ) {
+			for ( j = core_j - 1, tj = 1; j <= core_j + 1; j++, tj++ ) {
+				if ( PIECES[ cp ][ cr ][ ti ][ tj ] > 0 || BOARD[ i ][ j ] == 1 )
+					BOARD[ i ][ j ] = PIECES[ cp ][ cr ][ i - core_i + 1 ][ j - core_j + 2 ];
 			} // end for
 		} // end for
 	} else { // other piece except O, overwrite 3x3
