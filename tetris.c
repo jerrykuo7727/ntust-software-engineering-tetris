@@ -3,6 +3,7 @@
 
 void display( void ); // refresh the board
 void BOARD_init( void ); // generate a new board
+void block_init( int piece, int rotation ); // generate a new block
 
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
@@ -233,5 +234,15 @@ void BOARD_init( void )
 			else if ( j == 0 || j == 11 ) BOARD[ i ][ j ] = 4;
 			else BOARD[ i ][ j ] = 0;
 		}
+	display();
+}
+
+void block_init( int piece, int rotation )
+{
+	int i, j;
+	for ( i = 0; i < 4; i++)
+		for ( j = 0; j < 4; j++)
+			if ( BOARD[ i ][ j + 3 ] == 0 )
+				BOARD[ i ][ j + 3 ] = PIECES[ piece ][ rotation ][ i ][ j ];
 	display();
 }
