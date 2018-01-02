@@ -9,6 +9,7 @@ void block_turn( void );
 void block_left( void );
 int can_fall( void ); // check if the block can fall
 int can_left( void );
+int can_right( void );
 
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
@@ -311,4 +312,15 @@ void block_left( void )
 		}
 	} 
 	display();
+}
+
+int can_right( void )
+{
+	int i, j;
+	for ( i = 19; i >= 0 ; i-- ) { 
+		for ( j = 10; j > 0; j-- ) {
+			if ( BOARD[ i ][ j ] >= 1 && BOARD[ i ][ j ] <= 2 && BOARD[ i ][ j + 1 ] > 2 ) return 0;
+		}
+	}
+	return 1;
 }
