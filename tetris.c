@@ -16,6 +16,8 @@ int can_rotate( int cp, int cr );
 void del_lines( void ); // delete full lines
 int isgameover( int piece, int rotation ); // check if game is over
 
+/* On board, 0: space, 1: falling block, 2: rotation core, 3: piling block, 4: border */
+
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
 {
