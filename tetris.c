@@ -14,6 +14,7 @@ int can_left( void );
 int can_right( void );
 int can_rotate( int cp, int cr );
 void del_lines( void ); // delete full lines
+int isgameover( int piece, int rotation ); // check if game is over
 
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
@@ -422,4 +423,14 @@ void del_lines( void )
 		} // end for
 	} 
 	display();
+}
+
+int isgameover( int piece, int rotation )
+{
+	int i, j; // counter
+	for ( i = 0; i < 4; i++ )
+		for ( j = 0; j < 4; j++)
+			if ( BOARD[ i ][ j + 3 ] == 3 && PIECES[ piece ][ rotation ][ i ][ j ] >= 1 )
+				return 1;
+	return 0;
 }
