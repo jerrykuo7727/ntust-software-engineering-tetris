@@ -11,6 +11,7 @@ void block_right( void );
 int can_fall( void ); // check if the block can fall
 int can_left( void );
 int can_right( void );
+int can_rotate( int cp, int cr );
 
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
