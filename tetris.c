@@ -8,6 +8,7 @@ void block_fall( void ); // make the block fall
 void block_turn( void );
 void block_left( void );
 void block_right( void );
+void block_rotate( int cp, int cr );
 int can_fall( void ); // check if the block can fall
 int can_left( void );
 int can_right( void );
@@ -368,5 +369,32 @@ int can_rotate( int cp, int cr )
 			} // end for
 		} // end for
 		return 1;
+	} // end else
+}
+
+void block_rotate( int cp, int cr )
+{
+	int i, j, core_i, core_j;
+	for ( i = 19; i >= 0 ; i-- ) { // search the piece core
+		for ( j = 1; j < 11; j++ ) {
+			if ( BOARD[ i ][ j ] == 2 ) {
+				core_i = i;
+				core_j = j;
+				break;
+			} // end if
+		} // end for
+	} // end for
+	if ( cp == 1 ) { // if current piece is I , overwrite 4x4
+		for ( i = core_i - 1; i <= core_i + 2; i++ ) {
+			for ( j = core_j - 2; j <= core_j + 1; j++ ) {
+				BOARD[ i ][ j ] = PIECES[ cp ][ cr ][ i - core_i + 1 ][ j - core_j + 2 ];
+			} // end for
+		} // end for
+	} else { // other piece except O, overwrite 3x3
+		for ( i = core_i - 1; i <= core_i + 1; i++ ) {
+			for ( j = core_j - 1; j <= core_j + 1; j++ ) {
+				BOARD[ i ][ j ] = PIECES[ cp ][ cr ][ i - core_i + 1 ][ j - core_j + 2 ];
+			} // end for
+		} // end for
 	} // end else
 }
