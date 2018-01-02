@@ -1,4 +1,6 @@
-// written by 郭家銍 四電資一 B10432030 
+// written by 郭家銍 四電資三 B10432030 in 2015
+// last time modified in 2018
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
