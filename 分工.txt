@@ -14,3 +14,6 @@ main.cs
   - class Controller
   - B10432002 鄭庭謙
   
+tetris.c
+  - prototype of tetris game
+  - B10432030 郭家銍
