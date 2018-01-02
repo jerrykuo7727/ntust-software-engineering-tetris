@@ -21,6 +21,7 @@ int isgameover( int piece, int rotation ); // check if game is over
 
 /* On board, 0: space, 1: falling block, 2: rotation core, 3: piling block, 4: border */
 
+int total_del = 0, difficulty = 1, speed = 1000; // total of deleted lines
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
 {
@@ -219,7 +220,7 @@ int main( void )
 	int start = 0, block_falling = 0;
 	while ( 1 ) { // looping eternally
 		t2 = clock(); // count passing time
-		while ( ( int )( t2 - t1 ) >= 1000 || start++ == 0 ) { // initially start and activate after every second passing
+		while ( ( int )( t2 - t1 ) >= speed || start++ == 0 ) { // initially start and activate after every second passing
 			if ( block_falling == 0 ) { // if block piling, update board and new block
 				cp = np; // replace current piece with next piece
 				cr = nr;
@@ -300,12 +301,15 @@ void display( void )
 			if ( j == 0 ) printf( "│" ); // print left border
 			else if ( j == 11 ) {
 				printf( "│" ); // print right border
-				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.00 by 郭家銍"			);
-				if ( i == 3 ) printf( "　　 Update.修正ver1.01中的所有Bug"			);
-				if ( i == 7 ) printf( "　　〈操作說明〉※須切換至英文輸入"			);
-				if ( i == 9 ) printf( "　　S: 下移　　　　    W: 旋轉" );
+				if ( i == 1  ) printf( "　　俄羅斯方塊 ver2.01 by 郭家銍"			);
+				if ( i == 3  ) printf( "　　Update.增加消行統計與難易度"		);
+				if ( i == 4  ) printf( "　　Bug.連按Space會導致程式暫停"		);
+				if ( i == 7  ) printf( "　　〈操作說明〉※須切換至英文輸入"			);
+				if ( i == 9  ) printf( "　　S: 下移　　　　    W: 旋轉" );
 				if ( i == 11 ) printf( "　　A: 左移　　　　　　D: 右移");
 				if ( i == 13 ) printf( "　　Space: 落下" );
+				if ( i == 17 ) printf( "　　難易度：%d", difficulty );
+				if ( i == 19 ) printf( "　　消除行數：%d", total_del );
 				printf( "\n" );
 			} else {
 				if ( BOARD[ i ][ j ] == 0 ) printf( "　" );
@@ -518,6 +522,23 @@ void del_lines( void )
 			BOARD[ i ][ j ] = BOARD[ i - rows ][ j ]; 
 		} // end for
 	} 
+	total_del += rows;
+	if ( total_del < 5 ) {
+		difficulty = 1;
+		speed = 1000;
+	} else if ( total_del < 10 ) {
+		difficulty = 2;
+		speed = 800;
+	} else if ( total_del < 15 ) {
+		difficulty = 3;
+		speed = 600;
+	} else if ( total_del < 20 ) {
+		difficulty = 4;
+		speed = 400;
+	} else if ( total_del < 25 ) {
+		difficulty = 5;
+		speed = 200;
+	} // end else if
 	display();
 }
 
