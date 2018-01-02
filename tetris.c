@@ -4,6 +4,7 @@
 void display( void ); // refresh the board
 void BOARD_init( void ); // generate a new board
 void block_init( int piece, int rotation ); // generate a new block
+int can_fall( void ); // check if the block can fall
 
 char BOARD[ 21 ][ 12 ] = {0}; // 20x10 without borders
 char PIECES[ 7 ][ 4 ][ 4 ][ 4 ] = // 7 kinds, 4 rotations, stored in 4x4
@@ -245,4 +246,15 @@ void block_init( int piece, int rotation )
 			if ( BOARD[ i ][ j + 3 ] == 0 )
 				BOARD[ i ][ j + 3 ] = PIECES[ piece ][ rotation ][ i ][ j ];
 	display();
+}
+
+int can_fall( void )
+{
+	int i, j;
+	for ( i = 19; i >= 0 ; i-- ) { 
+		for ( j = 1; j < 11; j++ ) {
+			if ( BOARD[ i ][ j ] >= 1 && BOARD[ i ][ j ] <= 2  && BOARD[ i + 1 ][ j ] > 2 ) return 0;
+		}
+	}
+	return 1;
 }
