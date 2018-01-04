@@ -287,7 +287,7 @@ int main( void )
 					break;
 				case 'e': // clockwise
 					if ( can_rotate( cp, cr, -1 ) == 1 ) {
-						if ( cr == 0 ) cr = 4;
+						if ( cr == 0 ) cr = 3;
 						else cr -= 1; // rotate the piece
 						block_rotate( cp, cr ); // overwrite with the rotated piece
 					} // end if
