@@ -1,4 +1,4 @@
-model.cs
+﻿model.cs
   - class Model
   - B10432003 陳安泰 & B10432039 邱星融
 
@@ -10,7 +10,6 @@ B104320xx-View.cs
   - everyone have to write a sub-class of View, named after thier student ID
 
 controller.cs
-main.cs 
   - class Controller
   - B10432002 鄭庭謙
   
