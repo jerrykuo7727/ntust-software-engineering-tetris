@@ -28,7 +28,7 @@ class Model
 		display();
 	}
 
-	void block_fall()
+	public void block_fall()
 	{
 		int i, j;
 		for (i = 19; i >= 0; i--)
@@ -46,26 +46,24 @@ class Model
 	}
 
 	// turn falling block into piling block
-	void block_turn()
+	public void block_turn()
 	{
 		int i, j;
 		for (i = 19; i >= 0; i--)
 		{
 			for (j = 1; j < 11; j++)
 			{
+				//turn it to piling block
 				if (BOARD[i,j] == 1 || BOARD[i,j] == 2) BOARD[i,j] = 3;
 			}
 		}
 		display();
 	}
 
-	void block_left( );
-	void block_right( );
-	void block_rotate(int cp, int cr);
-	void block_land();
-	
-
-
+	public void block_left( );
+	public void block_right( );
+	public void block_rotate(int cp, int cr);
+	public void block_land();
 	
 
 	public int total_del = 0, difficulty = 1, speed = 1000; // total of deleted lines
