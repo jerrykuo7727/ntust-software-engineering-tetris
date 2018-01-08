@@ -59,7 +59,6 @@ class Model
 		}
 		display();
 	}
-
 	public void block_left( );
 	public void block_right( );
 	public void block_rotate(int cp, int cr);
