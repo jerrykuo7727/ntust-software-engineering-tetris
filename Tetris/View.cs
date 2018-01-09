@@ -15,8 +15,10 @@ namespace Tetris
     {
         //public Controller controller;
         //public Model model
-        Timer timer;
         public USERINPUT input;
+        public event EventHandler GameOver;
+
+        private Timer timer;
 
         protected Color controllerColor; // just for test
         protected int TileHeight = 16;
@@ -45,10 +47,16 @@ namespace Tetris
                 controllerColor = Color.DarkCyan;
         }
 
+        public void MakeGameOverEvent()
+        {
+            GameOver(this, EventArgs.Empty);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             // Controller.UserHasInput(); // 呼叫Controller遊戲要更新
             UserHasInput();
+            //if (model.state == GAMEOVER) GameOver(this, EventArgs.Empty);
             GameDisplay(e); // 進入這個函式以畫出畫面，這是大家在自己的View裡要override的
             base.OnPaint(e); // 回去做它沒有被override時會做的事
         }

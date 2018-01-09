@@ -17,9 +17,44 @@ namespace Tetris
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DownButton_Click(object sender, EventArgs e)
         {
             view1.Invalidate();
+            view1.input = USERINPUT.DOWN;
+        }
+
+        private void RotateButton_Click(object sender, EventArgs e)
+        {
+            view1.Invalidate();
+            view1.input = USERINPUT.ROTATE;
+        }
+
+        private void RightButton_Click(object sender, EventArgs e)
+        {
+            view1.Invalidate();
+            view1.input = USERINPUT.RIGHT;
+        }
+
+        private void LandButton_Click(object sender, EventArgs e)
+        {
+            view1.Invalidate();
+            view1.input = USERINPUT.LAND;
+            view1.MakeGameOverEvent();
+        }
+
+        private void View_GameOver(object sender, EventArgs e)
+        {
+            gameOverBox.Visible = true;
+        }
+
+        private void yesBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void noBtn_Click(object sender, EventArgs e)
+        {
+            // do nothing
         }
     }
 }
