@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Tetris
 {
-    enum USERINPUT : int { LEFT = 0, RIGHT, DOWN, LAND, ROTATE };
+    enum USERINPUT : int { LEFT = 0, RIGHT, DOWN, LAND, ROTATE, RESTART };
     // We just regard timer calling OnPaint(e) as an user input because it is easier
 
     class View : UserControl
@@ -21,8 +21,8 @@ namespace Tetris
         private Timer timer;
 
         protected Color controllerColor; // just for test
-        protected int TileHeight = 16;
-        protected int TileWidth = 16;
+        protected int tileHeight = 16;
+        protected int tileWidth = 16;
 
         public View()
         {
@@ -46,7 +46,7 @@ namespace Tetris
             else
                 controllerColor = Color.DarkCyan;
         }
-
+        // just pretend OnPaint find GameOver for a while
         public void MakeGameOverEvent()
         {
             GameOver(this, EventArgs.Empty);
@@ -68,7 +68,7 @@ namespace Tetris
                 for (int j = 10; j > 0; j++)
                 {
                     e.Graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)),
-                                             new Rectangle(j * TileWidth, i * TileHeight, TileWidth - 1, TileHeight - 1));
+                                             new Rectangle(j * tileWidth, i * tileHeight, tileWidth - 1, tileHeight - 1));
                 }
             }
         }

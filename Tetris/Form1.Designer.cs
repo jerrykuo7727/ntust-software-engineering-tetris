@@ -35,12 +35,13 @@ namespace Tetris
             this.DownButton = new System.Windows.Forms.Button();
             this.LandButton = new System.Windows.Forms.Button();
             this.RotateButton = new System.Windows.Forms.Button();
-            this.view1 = new Tetris.B10432010_View();
-            this.gameOverBox = new System.Windows.Forms.GroupBox();
-            this.noBtn = new System.Windows.Forms.Button();
+            this.View1 = new Tetris.B10432010_View();
+            this.GameOverBox = new System.Windows.Forms.GroupBox();
+            this.NoBtn = new System.Windows.Forms.Button();
             this.gameoverLabel = new System.Windows.Forms.Label();
-            this.yesBtn = new System.Windows.Forms.Button();
-            this.gameOverBox.SuspendLayout();
+            this.YesBtn = new System.Windows.Forms.Button();
+            this.Button1 = new System.Windows.Forms.Button();
+            this.GameOverBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // Left_Button
@@ -92,36 +93,36 @@ namespace Tetris
             this.RotateButton.UseVisualStyleBackColor = true;
             this.RotateButton.Click += new System.EventHandler(this.RotateButton_Click);
             // 
-            // view1
+            // View1
             // 
-            this.view1.Location = new System.Drawing.Point(12, 12);
-            this.view1.Name = "view1";
-            this.view1.Size = new System.Drawing.Size(250, 407);
-            this.view1.TabIndex = 0;
-            this.view1.GameOver += new System.EventHandler(this.View_GameOver);
+            this.View1.Location = new System.Drawing.Point(12, 12);
+            this.View1.Name = "View1";
+            this.View1.Size = new System.Drawing.Size(250, 407);
+            this.View1.TabIndex = 0;
+            this.View1.GameOver += new System.EventHandler(this.View_GameOver);
             // 
-            // gameOverBox
+            // GameOverBox
             // 
-            this.gameOverBox.Controls.Add(this.noBtn);
-            this.gameOverBox.Controls.Add(this.gameoverLabel);
-            this.gameOverBox.Controls.Add(this.yesBtn);
-            this.gameOverBox.Location = new System.Drawing.Point(258, 39);
-            this.gameOverBox.Name = "gameOverBox";
-            this.gameOverBox.Size = new System.Drawing.Size(186, 100);
-            this.gameOverBox.TabIndex = 11;
-            this.gameOverBox.TabStop = false;
-            this.gameOverBox.Text = "Game Over";
-            this.gameOverBox.Visible = false;
+            this.GameOverBox.Controls.Add(this.NoBtn);
+            this.GameOverBox.Controls.Add(this.gameoverLabel);
+            this.GameOverBox.Controls.Add(this.YesBtn);
+            this.GameOverBox.Location = new System.Drawing.Point(258, 39);
+            this.GameOverBox.Name = "GameOverBox";
+            this.GameOverBox.Size = new System.Drawing.Size(186, 100);
+            this.GameOverBox.TabIndex = 11;
+            this.GameOverBox.TabStop = false;
+            this.GameOverBox.Text = "Game Over";
+            this.GameOverBox.Visible = false;
             // 
-            // noBtn
+            // NoBtn
             // 
-            this.noBtn.Location = new System.Drawing.Point(98, 39);
-            this.noBtn.Name = "noBtn";
-            this.noBtn.Size = new System.Drawing.Size(80, 40);
-            this.noBtn.TabIndex = 8;
-            this.noBtn.Text = "No";
-            this.noBtn.UseVisualStyleBackColor = true;
-            this.noBtn.Click += new System.EventHandler(this.noBtn_Click);
+            this.NoBtn.Location = new System.Drawing.Point(98, 39);
+            this.NoBtn.Name = "NoBtn";
+            this.NoBtn.Size = new System.Drawing.Size(80, 40);
+            this.NoBtn.TabIndex = 8;
+            this.NoBtn.Text = "No";
+            this.NoBtn.UseVisualStyleBackColor = true;
+            this.NoBtn.Click += new System.EventHandler(this.NoBtn_Click);
             // 
             // gameoverLabel
             // 
@@ -133,47 +134,59 @@ namespace Tetris
             this.gameoverLabel.TabIndex = 7;
             this.gameoverLabel.Text = "Try Again?";
             // 
-            // yesBtn
+            // YesBtn
             // 
-            this.yesBtn.Location = new System.Drawing.Point(12, 39);
-            this.yesBtn.Name = "yesBtn";
-            this.yesBtn.Size = new System.Drawing.Size(80, 40);
-            this.yesBtn.TabIndex = 6;
-            this.yesBtn.Text = "Yes";
-            this.yesBtn.UseVisualStyleBackColor = true;
-            this.yesBtn.Click += new System.EventHandler(this.yesBtn_Click);
+            this.YesBtn.Location = new System.Drawing.Point(12, 39);
+            this.YesBtn.Name = "YesBtn";
+            this.YesBtn.Size = new System.Drawing.Size(80, 40);
+            this.YesBtn.TabIndex = 6;
+            this.YesBtn.Text = "Yes";
+            this.YesBtn.UseVisualStyleBackColor = true;
+            this.YesBtn.Click += new System.EventHandler(this.YesBtn_Click);
+            // 
+            // Button1
+            // 
+            this.Button1.Location = new System.Drawing.Point(292, 183);
+            this.Button1.Name = "Button1";
+            this.Button1.Size = new System.Drawing.Size(131, 23);
+            this.Button1.TabIndex = 12;
+            this.Button1.Text = "test game over";
+            this.Button1.UseVisualStyleBackColor = true;
+            this.Button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(462, 431);
-            this.Controls.Add(this.gameOverBox);
+            this.Controls.Add(this.Button1);
+            this.Controls.Add(this.GameOverBox);
             this.Controls.Add(this.RotateButton);
             this.Controls.Add(this.LandButton);
             this.Controls.Add(this.DownButton);
             this.Controls.Add(this.RightButton);
             this.Controls.Add(this.Left_Button);
-            this.Controls.Add(this.view1);
+            this.Controls.Add(this.View1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.gameOverBox.ResumeLayout(false);
-            this.gameOverBox.PerformLayout();
+            this.GameOverBox.ResumeLayout(false);
+            this.GameOverBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.Button Left_Button;
-        private B10432010_View view1;
+        private B10432010_View View1;
         private System.Windows.Forms.Button RightButton;
         private System.Windows.Forms.Button DownButton;
         private System.Windows.Forms.Button LandButton;
         private System.Windows.Forms.Button RotateButton;
-        private System.Windows.Forms.GroupBox gameOverBox;
-        private System.Windows.Forms.Button noBtn;
+        private System.Windows.Forms.GroupBox GameOverBox;
+        private System.Windows.Forms.Button NoBtn;
         private System.Windows.Forms.Label gameoverLabel;
-        private System.Windows.Forms.Button yesBtn;
+        private System.Windows.Forms.Button YesBtn;
+        private Button Button1;
     }
 }
 

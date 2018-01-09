@@ -12,7 +12,7 @@ namespace Tetris
             {
                 for (int j = 1; j < 11 /* Model.BOARD_WIDTH */; j++)
                 {
-                    e.Graphics.FillRectangle(brush, new Rectangle((j - 1) * TileWidth, (i - 1) * TileHeight, TileWidth - 1, TileHeight - 1));
+                    e.Graphics.FillRectangle(brush, new Rectangle((j - 1) * tileWidth, (i - 1) * tileHeight, tileWidth - 1, tileHeight - 1));
                 }
             }
         }

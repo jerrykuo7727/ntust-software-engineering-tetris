@@ -188,12 +188,12 @@ class Model
         } // end T
 	};
     public int total_del = 0, difficulty = 1; // total of deleted lines
-    public int[,] BOARD; // 20x10 without borders
+    public int[,] Board; // 20x10 without borders
 
     public Model()
     {
-        BOARD = new int[21, 12];
-        BOARD.Initialize(); // the default value of int in C# is 0
+        Board = new int[21, 12];
+        Board.Initialize(); // the default value of int in C# is 0
     }
 
     /* On board, 0: space, 1: falling block, 2: rotation core, 3: piling block, 4: border */
@@ -203,9 +203,9 @@ class Model
         for (int i = 0; i < 21; i++)
             for (int j = 0; j < 12; j++)
             {
-                if (i == 20) BOARD[i, j] = 4;
-                else if (j == 0 || j == 11) BOARD[i, j] = 4;
-                else BOARD[i, j] = 0;
+                if (i == 20) Board[i, j] = 4;
+                else if (j == 0 || j == 11) Board[i, j] = 4;
+                else Board[i, j] = 0;
             }
     }
 
@@ -214,8 +214,8 @@ class Model
     {
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 4; j++)
-                if (BOARD[i, j + 3] == 0)
-                    BOARD[i, j + 3] = PIECES[piece, rotation, i, j];
+                if (Board[i, j + 3] == 0)
+                    Board[i, j + 3] = PIECES[piece, rotation, i, j];
     }
 
 
@@ -225,10 +225,10 @@ class Model
         {
             for (int j = 1; j < 11; j++)
             {
-                if (BOARD[i, j] == 1 || BOARD[i, j] == 2)
+                if (Board[i, j] == 1 || Board[i, j] == 2)
                 {
-                    BOARD[i, j - 1] = BOARD[i, j];
-                    BOARD[i, j] = 0;
+                    Board[i, j - 1] = Board[i, j];
+                    Board[i, j] = 0;
                 }
             }
         }
@@ -240,10 +240,10 @@ class Model
         {
             for (int j = 10; j > 0; j--)
             {
-                if (BOARD[i, j] == 1 || BOARD[i, j] == 2)
+                if (Board[i, j] == 1 || Board[i, j] == 2)
                 {
-                    BOARD[i, j + 1] = BOARD[i, j];
-                    BOARD[i, j] = 0;
+                    Board[i, j + 1] = Board[i, j];
+                    Board[i, j] = 0;
                 }
             }
         }
@@ -256,7 +256,7 @@ class Model
         { // search the piece core
             for (int j = 1; j < 11; j++)
             {
-                if (BOARD[i, j] == 2)
+                if (Board[i, j] == 2)
                 {
                     core_i = i;
                     core_j = j;
@@ -270,7 +270,7 @@ class Model
             {
                 for (int j = core_j - 2; j <= core_j + 1; j++)
                 {
-                    BOARD[i, j] = PIECES[cp, cr, i - core_i + 1, j - core_j + 2];
+                    Board[i, j] = PIECES[cp, cr, i - core_i + 1, j - core_j + 2];
                 } // end for
             } // end for
         }
@@ -280,8 +280,8 @@ class Model
             {
                 for (int j = core_j - 1, tj = 1; j <= core_j + 1; j++, tj++)
                 {
-                    if (PIECES[cp, cr, ti, tj] > 0 || BOARD[i, j] == 1)
-                        BOARD[i, j] = PIECES[cp, cr, i - core_i + 1, j - core_j + 2];
+                    if (PIECES[cp, cr, ti, tj] > 0 || Board[i, j] == 1)
+                        Board[i, j] = PIECES[cp, cr, i - core_i + 1, j - core_j + 2];
                 } // end for
             } // end for
         }
@@ -291,7 +291,7 @@ class Model
             {
                 for (int j = core_j - 1; j <= core_j + 1; j++)
                 {
-                    BOARD[i, j] = PIECES[cp, cr, i - core_i + 1, j - core_j + 2];
+                    Board[i, j] = PIECES[cp, cr, i - core_i + 1, j - core_j + 2];
                 } // end for
             } // end for
         } // end else
@@ -303,10 +303,10 @@ class Model
         {
             for (int j = 1; j < 11; j++)
             {
-                if (BOARD[i, j] == 1 || BOARD[i, j] == 2)
+                if (Board[i, j] == 1 || Board[i, j] == 2)
                 {
-                    BOARD[i + 1, j] = BOARD[i, j];  // replace the next line with current line
-                    BOARD[i, j] = 0; // clean the current line
+                    Board[i + 1, j] = Board[i, j];  // replace the next line with current line
+                    Board[i, j] = 0; // clean the current line
                 }
             }
         }
@@ -318,10 +318,10 @@ class Model
 		{
 			for (int j = 1; j < 11; j++)
 			{
-				if (BOARD[i,j] == 1 || BOARD[i,j] == 2)
+				if (Board[i,j] == 1 || Board[i,j] == 2)
 				{
-					BOARD[i + 1,j] = BOARD[i,j];  // replace the next line with current line
-					BOARD[i,j] = 0; // clean the current line
+					Board[i + 1,j] = Board[i,j];  // replace the next line with current line
+					Board[i,j] = 0; // clean the current line
 				}
 			}
 		}
@@ -335,7 +335,7 @@ class Model
 			for (int j = 1; j < 11; j++)
 			{
 				//turn it to piling block
-				if (BOARD[i,j] == 1 || BOARD[i,j] == 2) BOARD[i,j] = 3;
+				if (Board[i,j] == 1 || Board[i,j] == 2) Board[i,j] = 3;
 			}
 		}
 	}
