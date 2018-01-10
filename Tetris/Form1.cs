@@ -29,7 +29,6 @@ namespace Tetris
             View1.Invalidate();
         }
 
-
         private void CCWRotateButton_Click(object sender, EventArgs e)
         {
             View1.input = USERINPUT.CCW_ROTATE;
@@ -63,15 +62,15 @@ namespace Tetris
         {
             GameOverBox.Visible = false;
             View1.input = USERINPUT.RESTART;
+            View1.timer.Start();
             View1.Invalidate();
         }
 
         private void NoBtn_Click(object sender, EventArgs e) => Application.Exit();
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void SpeedLabel_ChangeText(object sender, PaintEventArgs e)
         {
-            View1.MakeGameOverEvent();
-            View1.Invalidate();
+            SpeedLabel.Text = View1.timer.Interval.ToString() + " milisec";
         }
     }
 }

@@ -35,13 +35,15 @@ namespace Tetris
             this.DownButton = new System.Windows.Forms.Button();
             this.LandButton = new System.Windows.Forms.Button();
             this.CWRotateButton = new System.Windows.Forms.Button();
-            this.View1 = new Tetris.B10432010_View();
             this.GameOverBox = new System.Windows.Forms.GroupBox();
             this.NoBtn = new System.Windows.Forms.Button();
             this.gameoverLabel = new System.Windows.Forms.Label();
             this.YesBtn = new System.Windows.Forms.Button();
-            this.Button1 = new System.Windows.Forms.Button();
             this.CCWRotateButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.SpeedLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.View1 = new Tetris.B10432010_View();
             this.GameOverBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,7 +51,7 @@ namespace Tetris
             // 
             this.Left_Button.Location = new System.Drawing.Point(268, 282);
             this.Left_Button.Name = "Left_Button";
-            this.Left_Button.Size = new System.Drawing.Size(60, 40);
+            this.Left_Button.Size = new System.Drawing.Size(70, 40);
             this.Left_Button.TabIndex = 1;
             this.Left_Button.Text = "Left";
             this.Left_Button.UseVisualStyleBackColor = true;
@@ -59,7 +61,7 @@ namespace Tetris
             // 
             this.RightButton.Location = new System.Drawing.Point(400, 282);
             this.RightButton.Name = "RightButton";
-            this.RightButton.Size = new System.Drawing.Size(60, 40);
+            this.RightButton.Size = new System.Drawing.Size(70, 40);
             this.RightButton.TabIndex = 2;
             this.RightButton.Text = "Right";
             this.RightButton.UseVisualStyleBackColor = true;
@@ -67,7 +69,7 @@ namespace Tetris
             // 
             // DownButton
             // 
-            this.DownButton.Location = new System.Drawing.Point(334, 282);
+            this.DownButton.Location = new System.Drawing.Point(339, 282);
             this.DownButton.Name = "DownButton";
             this.DownButton.Size = new System.Drawing.Size(60, 40);
             this.DownButton.TabIndex = 3;
@@ -77,9 +79,9 @@ namespace Tetris
             // 
             // LandButton
             // 
-            this.LandButton.Location = new System.Drawing.Point(280, 328);
+            this.LandButton.Location = new System.Drawing.Point(287, 328);
             this.LandButton.Name = "LandButton";
-            this.LandButton.Size = new System.Drawing.Size(160, 30);
+            this.LandButton.Size = new System.Drawing.Size(160, 36);
             this.LandButton.TabIndex = 4;
             this.LandButton.Text = "Land";
             this.LandButton.UseVisualStyleBackColor = true;
@@ -89,26 +91,18 @@ namespace Tetris
             // 
             this.CWRotateButton.Location = new System.Drawing.Point(268, 236);
             this.CWRotateButton.Name = "CWRotateButton";
-            this.CWRotateButton.Size = new System.Drawing.Size(90, 40);
+            this.CWRotateButton.Size = new System.Drawing.Size(100, 40);
             this.CWRotateButton.TabIndex = 5;
             this.CWRotateButton.Text = "Rotate Clockwise";
             this.CWRotateButton.UseVisualStyleBackColor = true;
             this.CWRotateButton.Click += new System.EventHandler(this.CWRotateButton_Click);
-            // 
-            // View1
-            // 
-            this.View1.Location = new System.Drawing.Point(12, 12);
-            this.View1.Name = "View1";
-            this.View1.Size = new System.Drawing.Size(250, 407);
-            this.View1.TabIndex = 0;
-            this.View1.GameOver += new System.EventHandler(this.View_GameOver);
             // 
             // GameOverBox
             // 
             this.GameOverBox.Controls.Add(this.NoBtn);
             this.GameOverBox.Controls.Add(this.gameoverLabel);
             this.GameOverBox.Controls.Add(this.YesBtn);
-            this.GameOverBox.Location = new System.Drawing.Point(258, 39);
+            this.GameOverBox.Location = new System.Drawing.Point(268, 38);
             this.GameOverBox.Name = "GameOverBox";
             this.GameOverBox.Size = new System.Drawing.Size(186, 100);
             this.GameOverBox.TabIndex = 11;
@@ -146,33 +140,61 @@ namespace Tetris
             this.YesBtn.UseVisualStyleBackColor = true;
             this.YesBtn.Click += new System.EventHandler(this.YesBtn_Click);
             // 
-            // Button1
-            // 
-            this.Button1.Location = new System.Drawing.Point(292, 183);
-            this.Button1.Name = "Button1";
-            this.Button1.Size = new System.Drawing.Size(131, 23);
-            this.Button1.TabIndex = 12;
-            this.Button1.Text = "test game over";
-            this.Button1.UseVisualStyleBackColor = true;
-            this.Button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
             // CCWRotateButton
             // 
             this.CCWRotateButton.Location = new System.Drawing.Point(370, 236);
             this.CCWRotateButton.Name = "CCWRotateButton";
-            this.CCWRotateButton.Size = new System.Drawing.Size(90, 40);
+            this.CCWRotateButton.Size = new System.Drawing.Size(100, 40);
             this.CCWRotateButton.TabIndex = 13;
             this.CCWRotateButton.Text = "Rotate Cntrclockwise";
             this.CCWRotateButton.UseVisualStyleBackColor = true;
             this.CCWRotateButton.Click += new System.EventHandler(this.CCWRotateButton_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(267, 144);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 15);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Differculty:";
+            // 
+            // SpeedLabel
+            // 
+            this.SpeedLabel.AutoSize = true;
+            this.SpeedLabel.Location = new System.Drawing.Point(333, 169);
+            this.SpeedLabel.Name = "SpeedLabel";
+            this.SpeedLabel.Size = new System.Drawing.Size(47, 15);
+            this.SpeedLabel.TabIndex = 15;
+            this.SpeedLabel.Text = "milisec";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(267, 169);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 15);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "1 Tick per";
+            // 
+            // View1
+            // 
+            this.View1.Location = new System.Drawing.Point(12, 12);
+            this.View1.Name = "View1";
+            this.View1.Size = new System.Drawing.Size(250, 407);
+            this.View1.TabIndex = 0;
+            this.View1.GameOver += new System.EventHandler(this.View_GameOver);
+            this.View1.Paint += new System.Windows.Forms.PaintEventHandler(this.SpeedLabel_ChangeText);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(462, 431);
+            this.ClientSize = new System.Drawing.Size(475, 431);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.SpeedLabel);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.CCWRotateButton);
-            this.Controls.Add(this.Button1);
             this.Controls.Add(this.GameOverBox);
             this.Controls.Add(this.CWRotateButton);
             this.Controls.Add(this.LandButton);
@@ -185,6 +207,7 @@ namespace Tetris
             this.GameOverBox.ResumeLayout(false);
             this.GameOverBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -199,8 +222,10 @@ namespace Tetris
         private System.Windows.Forms.Button NoBtn;
         private System.Windows.Forms.Label gameoverLabel;
         private System.Windows.Forms.Button YesBtn;
-        private Button Button1;
-        private Button CCWRotateButton;
+        private System.Windows.Forms.Button CCWRotateButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label SpeedLabel;
+        private System.Windows.Forms.Label label2;
     }
 }
 

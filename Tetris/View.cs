@@ -12,11 +12,8 @@ namespace Tetris
         public Controller controller;
         public Model model;
         public USERINPUT input;
+        public Timer timer;
         public event EventHandler GameOver;
-
-        private Timer timer;
-
-        protected Color controllerColor; // just for test
         protected int tileHeight = 16;
         protected int tileWidth = 16;
 
@@ -24,7 +21,6 @@ namespace Tetris
         {
             model = new Model();
             controller = new Controller(model, this);
-            controllerColor = Color.DarkCyan;
             input = USERINPUT.DOWN;
 
             timer = new Timer() { Interval = model.speed }; // 執行Tick事件的速度
@@ -35,24 +31,14 @@ namespace Tetris
             timer.Start();
         }
 
-        // just pretend to be controller for a while
-        public void UserHasInput()
-        {
-            if (controllerColor == Color.DarkCyan)
-                controllerColor = Color.DarkBlue;
-            else
-                controllerColor = Color.DarkCyan;
-        }
-        // just pretend OnPaint find GameOver for a while
-        public void MakeGameOverEvent()
-        {
-            GameOver(this, EventArgs.Empty);
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             controller.UserHasInput(); // 呼叫Controller遊戲要更新
-            if (controller.currentState == "gameOverState") GameOver(this, EventArgs.Empty);
+            if (controller.currentState == "gameOverState")
+            {
+                GameOver(this, EventArgs.Empty);
+                timer.Stop();
+            }
             timer.Interval = model.speed; // 隨時檢查速度有沒有變快
             GameDisplay(e); // 進入這個函式以畫出畫面，這是大家在自己的View裡要override的
             base.OnPaint(e); // 回去做它沒有被override時會做的事
@@ -64,7 +50,7 @@ namespace Tetris
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    e.Graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)),
+                    e.Graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black), 0.2f),
                                              new Rectangle(j * tileWidth, i * tileHeight, tileWidth - 1, tileHeight - 1));
                 }
             }

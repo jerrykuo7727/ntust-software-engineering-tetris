@@ -5,25 +5,36 @@ public class Controller
 {
     public string currentState = "gameState";
     private int cp, cr, np, nr; // declare current piece/rotation and next
-    private int block_falling = 0;
+    private bool block_falling;
     private Model model;
     private View view;
-    int fuck;//if use model and view then can delete
-
-    Random rd1 = new Random();
+    private Random rd1;
 
     public Controller(Model _model, View _view)
     {
         model = _model;
         view = _view;
+        rd1 = new Random(new System.DateTime().Second);
+        block_falling = false;
+        np = rd1.Next(7);
+        nr = rd1.Next(4);
     }
 
     public void UserHasInput()
     {
         USERINPUT input = view.input;
-
-        if (block_falling == 0 && currentState == "gameState")
-        { // if block piling, update board and new block
+        if (block_falling && currentState == "gameState")
+        {
+            if(!CanFall())
+            {
+                model.block_turn(); // turn falling block into piling block
+                model.del_lines();
+                block_falling = false;
+            }
+        }
+        if (!block_falling)
+        {
+            // if block piling, update board and new block
             cp = np; // replace current piece with next piece
             cr = nr;
             np = rd1.Next(7);
@@ -35,10 +46,9 @@ public class Controller
             else
             {
                 model.add_block(cp, cr);
-                block_falling = 1;
+                block_falling = true;
             }
-        }// end if
-
+        }
         if (currentState == "gameOverState")
         {
             if (input == USERINPUT.RESTART)
@@ -98,12 +108,6 @@ public class Controller
                     while (CanFall()) model.block_land();
                     break;
             } // end switch
-            if (!CanFall())
-            {
-                model.block_turn(); // turn falling block into piling block
-                model.del_lines();
-                block_falling = 0;
-            }
         }
     }
 
@@ -181,7 +185,10 @@ public class Controller
             {
                 for (int j = core_j - 1, tj = 1; j <= core_j + 1; j++, tj++)
                 {
-                    if (model.PIECES[cp, cr + clockwise, ti, tj] > 0 && model.Board[i, j] > 2) return false; // detect rule: T spin
+                    int new_cr = cr + clockwise;
+                    if (new_cr > 3) new_cr -= 3;
+                    else if (new_cr < 0) new_cr += 3;
+                    if (model.PIECES[cp, new_cr, ti, tj] > 0 && model.Board[i, j] > 2) return false; // detect rule: T spin
                 } // end for
             } // end for
             return true;
