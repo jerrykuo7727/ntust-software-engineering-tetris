@@ -1,4 +1,4 @@
-class Model
+public class Model
 {
     //Types of the tetris model
     //0 is sapce,1 is block, 2 is block and the rotate core
@@ -187,18 +187,23 @@ class Model
             }
         } // end T
 	};
-    public int total_del = 0, difficulty = 1; // total of deleted lines
+    public int total_del; // total of deleted lines
+    public int difficulty, speed;
     public int[,] Board; // 20x10 without borders
 
     public Model()
     {
+        total_del = 0;
+        difficulty = 1;
+        speed = 1000;
         Board = new int[21, 12];
         Board.Initialize(); // the default value of int in C# is 0
+        BoardInit();
     }
 
     /* On board, 0: space, 1: falling block, 2: rotation core, 3: piling block, 4: border */
     //initial the board = 0, and the boarder = 4
-    public void BOARD_init()
+    public void BoardInit()
     {
         for (int i = 0; i < 21; i++)
             for (int j = 0; j < 12; j++)
@@ -219,7 +224,7 @@ class Model
     }
 
 
-    void block_left()
+    public void block_left()
     {
         for (int i = 19; i >= 0; i--)
         {
@@ -234,7 +239,7 @@ class Model
         }
     }
 
-    void block_right()
+    public void block_right()
     {
         for (int i = 19; i >= 0; i--)
         {
@@ -249,7 +254,7 @@ class Model
         }
     }
 
-    void block_rotate(int cp, int cr)
+    public void block_rotate(int cp, int cr)
     {
         int core_i = 0, core_j = 0;
         for (int i = 19; i >= 0; i--)
@@ -297,7 +302,7 @@ class Model
         } // end else
     }
 
-    void block_land()
+    public void block_land()
     {
         for (int i = 19; i >= 0; i--)
         {
@@ -339,4 +344,58 @@ class Model
 			}
 		}
 	}
+
+    public void del_lines()
+    {
+        int d = 1, del = 0; // counter of height, width, delete or not, which row to start delete
+        int rows = 0; // row number of del lines
+        for (int i = 19; i >= 0; i--)
+        {
+            d = 1;
+            for (int j = 1; j < 11; j++)
+            {
+                if (Board[i,j] != 3) d = 0;
+            } // end for
+            if (rows > 0 && d == 0) break;
+            else
+            {
+                rows += d;
+                del = i;
+            } // end else
+        } // end for
+        del = del + rows - 1;
+        for (int i = del; i >= rows; i--)
+        {
+            for (int j = 1; j < 11; j++)
+            {
+                Board[i, j] = Board[i - rows, j];
+            } // end for
+        }
+        total_del += rows;
+        if (total_del < 5)
+        {
+            difficulty = 1;
+            speed = 1000;
+        }
+        else if (total_del < 10)
+        {
+            difficulty = 2;
+            speed = 800;
+        }
+        else if (total_del < 15)
+        {
+            difficulty = 3;
+            speed = 600;
+        }
+        else if (total_del < 20)
+        {
+            difficulty = 4;
+            speed = 400;
+        }
+        else if (total_del < 25)
+        {
+            difficulty = 5;
+            speed = 200;
+        } // end else if
+    }
 }

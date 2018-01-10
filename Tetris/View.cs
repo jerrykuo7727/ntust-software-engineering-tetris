@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace Tetris
 {
-    enum USERINPUT : int { LEFT = 0, RIGHT, DOWN, LAND, ROTATE, RESTART };
+    public enum USERINPUT : int { LEFT = 0, RIGHT, DOWN, LAND, CW_ROTATE, CCW_ROTATE, RESTART };
     // We just regard timer calling OnPaint(e) as an user input because it is easier
 
-    class View : UserControl
+    public class View : UserControl
     {
-        //public Controller controller;
-        //public Model model
+        public Controller controller;
+        public Model model;
         public USERINPUT input;
         public event EventHandler GameOver;
 
@@ -26,11 +22,12 @@ namespace Tetris
 
         public View()
         {
-            //model = new Model();
-            //controller = new Controller(model);
+            model = new Model();
+            controller = new Controller(model, this);
             controllerColor = Color.DarkCyan;
+            input = USERINPUT.DOWN;
 
-            timer = new Timer() { Interval = 1000 }; // 一秒執行一次Tick事件
+            timer = new Timer() { Interval = model.speed }; // 執行Tick事件的速度
             timer.Tick += delegate{
                 input = USERINPUT.DOWN; // 在Tick發生之後要做{input = USERINPUT.DOWN;}
             };
@@ -54,18 +51,18 @@ namespace Tetris
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            // Controller.UserHasInput(); // 呼叫Controller遊戲要更新
-            UserHasInput();
-            //if (model.state == GAMEOVER) GameOver(this, EventArgs.Empty);
+            controller.UserHasInput(); // 呼叫Controller遊戲要更新
+            if (controller.currentState == "gameOverState") GameOver(this, EventArgs.Empty);
+            timer.Interval = model.speed; // 隨時檢查速度有沒有變快
             GameDisplay(e); // 進入這個函式以畫出畫面，這是大家在自己的View裡要override的
             base.OnPaint(e); // 回去做它沒有被override時會做的事
         }
 
         protected virtual void GameDisplay(PaintEventArgs e)
         {
-            for (int i = 19; i > 0; i++)
+            for (int i = 0; i < 19; i++)
             {
-                for (int j = 10; j > 0; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     e.Graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)),
                                              new Rectangle(j * tileWidth, i * tileHeight, tileWidth - 1, tileHeight - 1));

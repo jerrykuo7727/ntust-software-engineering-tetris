@@ -7,14 +7,19 @@ namespace Tetris
     {
         override protected void GameDisplay(PaintEventArgs e)
         {
-            var brush = new SolidBrush(controllerColor);
-            for (int i = 1; i < 21 /* Model.BOARD_HEIGHT */; i++)
+            var fallingBlock = new SolidBrush(Color.DarkCyan);
+            var pilingBlock = new SolidBrush(Color.DarkBlue);
+            for (int i = 1; i < 21 ; i++)
             {
-                for (int j = 1; j < 11 /* Model.BOARD_WIDTH */; j++)
+                for (int j = 1; j < 11 ; j++)
                 {
-                    e.Graphics.FillRectangle(brush, new Rectangle((j - 1) * tileWidth, (i - 1) * tileHeight, tileWidth - 1, tileHeight - 1));
+                    if (model.Board[i,j] == 1 || model.Board[i, j] == 2)
+                        e.Graphics.FillRectangle(fallingBlock, new Rectangle((j - 1) * tileWidth, (i - 1) * tileHeight, tileWidth - 1, tileHeight - 1));
+                    else if (model.Board[i, j] == 3)
+                        e.Graphics.FillRectangle(pilingBlock, new Rectangle((j - 1) * tileWidth, (i - 1) * tileHeight, tileWidth - 1, tileHeight - 1));
                 }
             }
+            base.GameDisplay(e);
         }
     }
 

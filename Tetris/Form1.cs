@@ -23,9 +23,22 @@ namespace Tetris
             View1.Invalidate();
         }
 
-        private void RotateButton_Click(object sender, EventArgs e)
+        private void CWRotateButton_Click(object sender, EventArgs e)
         {
-            View1.input = USERINPUT.ROTATE;
+            View1.input = USERINPUT.CW_ROTATE;
+            View1.Invalidate();
+        }
+
+
+        private void CCWRotateButton_Click(object sender, EventArgs e)
+        {
+            View1.input = USERINPUT.CCW_ROTATE;
+            View1.Invalidate();
+        }
+
+        private void Left_Button_Click(object sender, EventArgs e)
+        {
+            View1.input = USERINPUT.LEFT;
             View1.Invalidate();
         }
 
@@ -53,10 +66,7 @@ namespace Tetris
             View1.Invalidate();
         }
 
-        private void NoBtn_Click(object sender, EventArgs e)
-        {
-            // do nothing
-        }
+        private void NoBtn_Click(object sender, EventArgs e) => Application.Exit();
 
         private void Button1_Click(object sender, EventArgs e)
         {
