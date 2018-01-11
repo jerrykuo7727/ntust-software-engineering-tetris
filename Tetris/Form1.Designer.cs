@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-// 可更換成其他繼承了Tetris.View的View
+// 可更換成任意Tetris.View的子類別
 using CustomView = Tetris.B10432010_View; 
 
 namespace Tetris
