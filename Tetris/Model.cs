@@ -187,6 +187,7 @@ public class Model
             }
         } // end T
 	};
+    public int grade = 0;
     public int total_del; // total of deleted lines
     public int difficulty, speed;
     public int[,] Board; // 20x10 without borders
@@ -376,26 +377,31 @@ public class Model
         {
             difficulty = 1;
             speed = 1000;
+            grade += rows * 500;
         }
         else if (total_del < 10)
         {
             difficulty = 2;
             speed = 800;
+            grade += rows * 1000;
         }
         else if (total_del < 15)
         {
             difficulty = 3;
             speed = 600;
+            grade += rows * 2000;
         }
         else if (total_del < 20)
         {
             difficulty = 4;
             speed = 400;
+            grade += rows * 4000;
         }
         else if (total_del < 25)
         {
             difficulty = 5;
             speed = 200;
+            grade += rows * 10000;
         } // end else if
     }
 }
