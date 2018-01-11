@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="B10432003_View.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="B10432030_View.cs">
       <SubType>UserControl</SubType>
     </Compile>
