@@ -4,7 +4,7 @@ using Tetris;
 public class Controller
 {
     public string currentState = "gameState";
-    private int cp, cr, np, nr; // declare current piece/rotation and next
+    public int cp, cr, np, nr; // declare current piece/rotation and next
     private bool block_falling;
     private Model model;
     private View view;

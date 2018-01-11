@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 
 // 可更換成任意Tetris.View的子類別
-using CustomView = Tetris.B10432010_View; 
+using CustomView = Tetris.B10432002_View; 
 
 namespace Tetris
 {
@@ -46,7 +46,7 @@ namespace Tetris
             this.label1 = new System.Windows.Forms.Label();
             this.SpeedLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.View1 = new Tetris.B10432010_View();
+            this.View1 = new CustomView();
             this.label3 = new System.Windows.Forms.Label();
             this.GameOverBox.SuspendLayout();
             this.SuspendLayout();
