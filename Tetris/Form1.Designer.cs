@@ -43,7 +43,7 @@ namespace Tetris
             this.label1 = new System.Windows.Forms.Label();
             this.SpeedLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.View1 = new Tetris.B10432010_View();
+            this.View1 = new Tetris.B10432010_View(); // 可更換成其他繼承了Tetris.View的View
             this.GameOverBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -213,7 +213,7 @@ namespace Tetris
 
         #endregion
         private System.Windows.Forms.Button Left_Button;
-        private B10432010_View View1;
+        private Tetris.View View1;
         private System.Windows.Forms.Button RightButton;
         private System.Windows.Forms.Button DownButton;
         private System.Windows.Forms.Button LandButton;
