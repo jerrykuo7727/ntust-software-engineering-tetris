@@ -12,9 +12,11 @@ namespace Tetris
 {
     public partial class Form1 : Form
     {
+        Timer timer1;
         public Form1()
         {
             InitializeComponent();
+            initial_timer1();
         }
 
         private void DownButton_Click(object sender, EventArgs e)
@@ -61,6 +63,7 @@ namespace Tetris
         private void YesBtn_Click(object sender, EventArgs e)
         {
             GameOverBox.Visible = false;
+            View1.model.grade = 0;
             View1.input = USERINPUT.RESTART;
             View1.timer.Start();
             View1.Invalidate();
@@ -71,6 +74,16 @@ namespace Tetris
         private void SpeedLabel_ChangeText(object sender, PaintEventArgs e)
         {
             SpeedLabel.Text = View1.timer.Interval.ToString() + " milisec";
+        }
+        private void initial_timer1()
+        {
+            timer1 = new Timer { Interval = 100 };
+            timer1.Tick += new EventHandler (timer_tick);
+            timer1.Start();
+;        }
+        private void timer_tick(object Sender, EventArgs e)//讓分數變化
+        {
+            label3.Text = View1.model.grade.ToString();
         }
     }
 }
