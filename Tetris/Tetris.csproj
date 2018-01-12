@@ -54,6 +54,9 @@
     <Compile Include="B10432010_View.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="B10432039_View.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controller.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

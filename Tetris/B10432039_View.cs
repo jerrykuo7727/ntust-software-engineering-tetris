@@ -7,7 +7,7 @@ namespace Tetris
     {
         override protected void GameDisplay(PaintEventArgs e)
         {
-            var fallingBlock = new SolidBrush(Color.Brown));
+            var fallingBlock = new SolidBrush(Color.Brown);
             var pilingBlock = new SolidBrush(Color.Black);
             for (int i = 1; i < 21 ; i++)
             {
